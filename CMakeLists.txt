@@ -23,3 +23,4 @@ add_executable(
         module_3/1/c_arc_graph.cpp
 )
 add_executable(module_3.2 module_3/2/main.cpp)
+add_executable(module_3.3 module_3/3/main.cpp)

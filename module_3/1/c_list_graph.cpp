@@ -18,7 +18,7 @@ void CListGraph::AddEdge(size_t from, size_t to) {
   graph_[from].push_back(to);
 }
 
-std::vector<size_t> CListGraph::GetNextVertices(size_t vertex) const {
+std::vector<size_t> CListGraph::GetEdgesFromVertex(size_t vertex) const {
   return {graph_[vertex].begin(), graph_[vertex].end()};
 }
 

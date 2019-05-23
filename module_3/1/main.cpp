@@ -4,7 +4,7 @@
 #include "c_set_graph.h"
 #include "c_arc_graph.h"
 
-using GraphType = CArcGraph;
+using GraphType = CListGraph;
 
 int main() {
   size_t vertices_count, edges_count;

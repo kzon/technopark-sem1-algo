@@ -90,11 +90,13 @@ size_t FindShortestWay(const Graph &graph, size_t from, size_t to) {
   distances[from] = 0;
   queue.push({0, from});
   while (!queue.empty()) {
-    size_t current = queue.top().second;
+    size_t current_distance = queue.top().first, current_vertex = queue.top().second;
     queue.pop();
-    for (const auto &edge : graph.GetEdgesFromVertex(current)) {
-      if (distances[edge.first] > distances[current] + edge.second) {
-        distances[edge.first] = distances[current] + edge.second;
+    if (current_distance > distances[current_vertex])
+      continue;
+    for (const auto &edge : graph.GetEdgesFromVertex(current_vertex)) {
+      if (distances[edge.first] > distances[current_vertex] + edge.second) {
+        distances[edge.first] = distances[current_vertex] + edge.second;
         queue.push({distances[edge.first], edge.first});
       }
     }

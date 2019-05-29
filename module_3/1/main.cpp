@@ -26,48 +26,39 @@ void AssertGraphsEquals(const IGraph &graph_1, const IGraph &graph_2) {
   }
 }
 
-void TestMatrixGraph() {
-  CMatrixGraph graph(VERTICES_COUNT);
-  AddEdges(graph);
+void TestGraphCopy(const IGraph& graph) {
+  CMatrixGraph matrix_graph(graph);
+  AssertGraphsEquals(graph, matrix_graph);
   CListGraph list_graph(graph);
   AssertGraphsEquals(graph, list_graph);
   CSetGraph set_graph(graph);
   AssertGraphsEquals(graph, set_graph);
   CArcGraph arc_graph(graph);
   AssertGraphsEquals(graph, arc_graph);
+}
+
+void TestMatrixGraph() {
+  CMatrixGraph graph(VERTICES_COUNT);
+  AddEdges(graph);
+  TestGraphCopy(graph);
 }
 
 void TestListGraph() {
   CListGraph graph(VERTICES_COUNT);
   AddEdges(graph);
-  CMatrixGraph matrix_graph(graph);
-  AssertGraphsEquals(graph, matrix_graph);
-  CSetGraph set_graph(graph);
-  AssertGraphsEquals(graph, set_graph);
-  CArcGraph arc_graph(graph);
-  AssertGraphsEquals(graph, arc_graph);
+  TestGraphCopy(graph);
 }
 
 void TestSetGraph() {
   CSetGraph graph(VERTICES_COUNT);
   AddEdges(graph);
-  CMatrixGraph matrix_graph(graph);
-  AssertGraphsEquals(graph, matrix_graph);
-  CListGraph list_graph(graph);
-  AssertGraphsEquals(graph, list_graph);
-  CArcGraph arc_graph(graph);
-  AssertGraphsEquals(graph, arc_graph);
+  TestGraphCopy(graph);
 }
 
 void TestArcGraph() {
   CArcGraph graph(VERTICES_COUNT);
   AddEdges(graph);
-  CMatrixGraph matrix_graph(graph);
-  AssertGraphsEquals(graph, matrix_graph);
-  CListGraph list_graph(graph);
-  AssertGraphsEquals(graph, list_graph);
-  CSetGraph set_graph(graph);
-  AssertGraphsEquals(graph, set_graph);
+  TestGraphCopy(graph);
 }
 
 int main() {

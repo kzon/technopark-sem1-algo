@@ -1,36 +1,80 @@
 #include <iostream>
+#include <algorithm>
 #include "c_matrix_graph.h"
 #include "c_list_graph.h"
 #include "c_set_graph.h"
 #include "c_arc_graph.h"
 
-using GraphType = CSetGraph;
+const size_t VERTICES_COUNT = 4;
+
+void AddEdges(IGraph &graph) {
+  graph.AddEdge(0, 1);
+  graph.AddEdge(0, 2);
+  graph.AddEdge(1, 2);
+  graph.AddEdge(1, 3);
+  graph.AddEdge(2, 3);
+}
+
+void AssertGraphsEquals(const IGraph &graph_1, const IGraph &graph_2) {
+  assert(graph_1.VerticesCount() == graph_2.VerticesCount());
+  for (size_t vertex = 0; vertex < graph_1.VerticesCount(); ++vertex) {
+    auto next_vertices_1 = graph_1.GetNextVertices(vertex);
+    auto next_vertices_2 = graph_2.GetNextVertices(vertex);
+    std::sort(next_vertices_1.begin(), next_vertices_1.end());
+    std::sort(next_vertices_2.begin(), next_vertices_2.end());
+    assert(next_vertices_1 == next_vertices_2);
+  }
+}
+
+void TestMatrixGraph() {
+  CMatrixGraph graph(VERTICES_COUNT);
+  AddEdges(graph);
+  CListGraph list_graph(graph);
+  AssertGraphsEquals(graph, list_graph);
+  CSetGraph set_graph(graph);
+  AssertGraphsEquals(graph, set_graph);
+  CArcGraph arc_graph(graph);
+  AssertGraphsEquals(graph, arc_graph);
+}
+
+void TestListGraph() {
+  CListGraph graph(VERTICES_COUNT);
+  AddEdges(graph);
+  CMatrixGraph matrix_graph(graph);
+  AssertGraphsEquals(graph, matrix_graph);
+  CSetGraph set_graph(graph);
+  AssertGraphsEquals(graph, set_graph);
+  CArcGraph arc_graph(graph);
+  AssertGraphsEquals(graph, arc_graph);
+}
+
+void TestSetGraph() {
+  CSetGraph graph(VERTICES_COUNT);
+  AddEdges(graph);
+  CMatrixGraph matrix_graph(graph);
+  AssertGraphsEquals(graph, matrix_graph);
+  CListGraph list_graph(graph);
+  AssertGraphsEquals(graph, list_graph);
+  CArcGraph arc_graph(graph);
+  AssertGraphsEquals(graph, arc_graph);
+}
+
+void TestArcGraph() {
+  CArcGraph graph(VERTICES_COUNT);
+  AddEdges(graph);
+  CMatrixGraph matrix_graph(graph);
+  AssertGraphsEquals(graph, matrix_graph);
+  CListGraph list_graph(graph);
+  AssertGraphsEquals(graph, list_graph);
+  CSetGraph set_graph(graph);
+  AssertGraphsEquals(graph, set_graph);
+}
 
 int main() {
-  size_t vertices_count, edges_count;
-  std::cin >> vertices_count >> edges_count;
-  GraphType graph(vertices_count);
-  for (size_t i = 0; i < edges_count; ++i) {
-    size_t vertex1, vertex2;
-    std::cin >> vertex1 >> vertex2;
-    graph.AddEdge(vertex1, vertex2);
-  }
-
-  IGraph *i_graph = &graph;
-  GraphType graph_copy(*i_graph);
-
-  size_t vertex;
-  std::cin >> vertex;
-  std::cout << "prev vertices for " << vertex << ": ";
-  for (const auto prev_vertex : graph_copy.GetPrevVertices(vertex))
-    std::cout << prev_vertex << ' ';
-  std::cout << std::endl;
-
-  std::cin >> vertex;
-  std::cout << "next vertices for " << vertex << ": ";
-  for (const auto next_vertex : graph_copy.GetNextVertices(vertex))
-    std::cout << next_vertex << ' ';
-  std::cout << std::endl;
+  TestMatrixGraph();
+  TestListGraph();
+  TestSetGraph();
+  TestArcGraph();
 
   return 0;
 }

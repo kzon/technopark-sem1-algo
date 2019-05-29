@@ -4,7 +4,6 @@
 
 struct IGraph {
   explicit IGraph(size_t vertices_count) : vertices_count_(vertices_count) {}
-  IGraph(const IGraph& other) : IGraph(other.vertices_count_) {}
   virtual ~IGraph() = default;
 
   virtual void AddEdge(size_t from, size_t to) = 0;

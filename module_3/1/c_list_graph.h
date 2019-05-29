@@ -5,7 +5,7 @@
 
 struct CListGraph : public IGraph {
   explicit CListGraph(size_t vertices_count);
-  CListGraph(const CListGraph &other);
+  CListGraph(const IGraph &other);
   ~CListGraph() override;
   void AddEdge(size_t from, size_t to) override;
   std::vector<size_t> GetNextVertices(size_t vertex) const override;

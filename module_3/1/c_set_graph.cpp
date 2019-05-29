@@ -4,9 +4,12 @@ CSetGraph::CSetGraph(size_t vertices_count) : IGraph(vertices_count) {
   graph_ = new SetType[vertices_count];
 }
 
-CSetGraph::CSetGraph(const CSetGraph &other) : CSetGraph(other.vertices_count_) {
-  for (size_t i = 0; i < vertices_count_; ++i)
-    graph_[i] = other.graph_[i];
+CSetGraph::CSetGraph(const IGraph &other) : CSetGraph(other.VerticesCount()) {
+  for (size_t from = 0; from < vertices_count_; ++from) {
+    auto vertices = other.GetNextVertices(from);
+    for (const auto to : vertices)
+      AddEdge(from, to);
+  }
 }
 
 CSetGraph::~CSetGraph() {
@@ -31,5 +34,3 @@ std::vector<size_t> CSetGraph::GetPrevVertices(size_t vertex) const {
   }
   return prev_vertices;
 }
-
-

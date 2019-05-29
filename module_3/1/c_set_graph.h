@@ -5,7 +5,7 @@
 
 struct CSetGraph : public IGraph {
   explicit CSetGraph(size_t vertices_count);
-  CSetGraph(const CSetGraph& other);
+  CSetGraph(const IGraph& other);
   ~CSetGraph() override;
   void AddEdge(size_t from, size_t to) override;
   std::vector<size_t> GetNextVertices(size_t vertex) const override;

@@ -6,9 +6,12 @@ CMatrixGraph::CMatrixGraph(size_t vertices_count) : IGraph(vertices_count) {
     graph_[i] = new size_t[vertices_count]();
 }
 
-CMatrixGraph::CMatrixGraph(const CMatrixGraph &other) : CMatrixGraph(other.vertices_count_) {
-  for (size_t i = 0; i < vertices_count_; ++i)
-    std::copy(other.graph_[i], other.graph_[i] + vertices_count_, graph_[i]);
+CMatrixGraph::CMatrixGraph(const IGraph &other) : CMatrixGraph(other.VerticesCount()) {
+  for (size_t from = 0; from < vertices_count_; ++from) {
+    auto vertices = other.GetNextVertices(from);
+    for (const auto to : vertices)
+      AddEdge(from, to);
+  }
 }
 
 CMatrixGraph::~CMatrixGraph() {

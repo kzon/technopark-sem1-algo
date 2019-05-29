@@ -4,9 +4,12 @@ CListGraph::CListGraph(size_t vertices_count) : IGraph(vertices_count) {
   graph_ = new ListType[vertices_count];
 }
 
-CListGraph::CListGraph(const CListGraph &other) : CListGraph(other.vertices_count_) {
-  for (size_t i = 0; i < vertices_count_; ++i)
-    graph_[i] = other.graph_[i];
+CListGraph::CListGraph(const IGraph &other) : CListGraph(other.VerticesCount()) {
+  for (size_t from = 0; from < vertices_count_; ++from) {
+    auto vertices = other.GetNextVertices(from);
+    for (const auto to : vertices)
+      AddEdge(from, to);
+  }
 }
 
 CListGraph::~CListGraph() {

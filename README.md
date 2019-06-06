@@ -1,2 +1,2 @@
-# Algorithm Tasks by Technopark@Mail.ru
+# Algorithm Tasks by Technopark Mail.ru
 
